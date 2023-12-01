@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110490844-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-110490844-2');
+    </script>
+        <title>Arun</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.min.css') }}">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
+        <style>
+
+            @keyframes blinking {
+                0% {
+                    background-color: rgba({{color_string}}, 0)
+                }
+                10% {
+                    background-color: rgba({{color_string}}, .2)
+                }
+                20% {
+                    background-color: rgba({{color_string}}, .4)
+                }
+                30% {
+                    background-color: rgba({{color_string}}, .6)
+                }
+                40% {
+                    background-color: rgba({{color_string}}, .8)
+                }
+                50% {
+                    background-color: rgba({{color_string}}, 1)
+                }
+                60% {
+                    background-color: rgba({{color_string}}, .8)
+                }
+                70% {
+                    background-color: rgba({{color_string}}, .6)
+                }
+                80% {
+                    background-color: rgba({{color_string}}, .4)
+                }
+                90% {
+                    background-color: rgba({{color_string}}, .2)
+                }
+                100% {
+                    background-color: rgba({{color_string}}, 0)
+                }
+            }
+        </style>
+</head>
+<body>
+<canvas id="myCanvas" resize></canvas>
+
+    <div class="flex-col center w-100">
+        <div class="name-frame">
+            <h1 class="white-color bg-black">Arun Vavilakolanu</h1>
+            <div class="blink"></div>
+        </div>
+        <h2 class="white-color bg-black">Fullstack web developer</h2>
+
+        <div class="links-container bg-black">
+            <a href="https://www.linkedin.com/in/arunvv" target="_blank" rel="noopener noreferrer"><img
+                    src="../static/images/linkedin.svg" class="icon" alt="Linkedin"></a>
+            <a href="https://www.github.com/ArunVenkata" target="_blank" rel="noopener noreferrer"><img
+                    src="../static/images/github.svg" class="icon" alt="Github"></a>
+            <a href="https://twitter.com/arun53999" target="_blank" rel="noopener noreferrer"><img
+                    src="../static/images/twitter.svg" class="icon" alt="Twitter"></a>
+        </div>
+        <h3 class="white-color bg-black">Want to chat?&nbsp;<a
+                href="mailto:vv.arun@ymail.com?subject=Message from vvarun.com">click here</a></h3>
+    </div>
+<script type="text/javascript">
+    // Only executed our code once the DOM is ready.
+    paper.install(window);
+    (() => {window.onload = function () {
+        var canvas = document.getElementById('myCanvas');
+        // Create an empty project and a view for the canvas:
+        paper.setup(canvas);
+        // The amount of circles we want to make:
+        var count = 150;
+
+        var head = new Path.Circle({
+            center: [80, 50],
+            radius: 10,
+            fillColor: "#ffffff"
+        });
+        var symbol = new Symbol(head);
+        var data = {};
+        for (let i = 0; i < count; i++) {
+            let randompt = Point.random();
+            let viewsize = view.size;
+            let pt = new Point(viewsize.width * randompt.x, viewsize.height * randompt.y);
+            let placed = symbol.place(pt);
+            data[placed] = pt;
+            placed.scale(i / count)
+
+        }
+
+        view.onFrame = function onFrame(event) {
+
+            for (let i = 0; i < count; i++) {
+                let item = project.activeLayer.children[i];
+
+                // Move the item 1/20th of its width to the right. This way
+                // larger circles move faster than smaller circles:
+                item.position.x += item.bounds.width / 20;
+                item.position.y += item.bounds.height / 20;
+
+                // If the item has left the view on the right, move it back
+                // to the left:
+                if (item.bounds.left > (view.size.width) || item.bounds.top > (view.size.height)) {
+                    item.position.x = -view.size.width + data[item].x;
+                    item.position.y = -view.size.height + data[item].y;
+                    break;
+                }
+            }
+
+
+        }
+
+    }})();
+
+</script>
+</body>
+</html>
